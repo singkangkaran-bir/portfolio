@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Pagina non trovata | Karanbir Singh</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Stili specifici per la 404 per centrare tutto */
+        .error-page {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .error-code {
+            font-size: clamp(5rem, 15vw, 10rem);
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 1px #00f2ff;
+            line-height: 1;
+        }
+        .error-message {
+            font-size: 1.5rem;
+            margin: 20px 0 40px;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body class="error-body">
+
+    <div class="error-page">
+        <h1 class="error-code">404</h1>
+        <p class="error-message" data-it="Ops! Sembra che tu ti sia perso nel codice. Questa pagina non esiste." 
+           data-en="Oops! It seems you got lost in the code. This page doesn't exist.">
+            Ops! Sembra che tu ti sia perso nel codice. Questa pagina non esiste.
+        </p>
+        
+        <div class="hero-cta">
+            <a href="index.html" class="btn-main" data-it="Torna alla Home" data-en="Back to Home">Torna alla Home</a>
+        </div>
+    </div>
+
+    <div id="magic-button" class="floating-magic-btn">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span class="btn-tooltip" data-it="Almeno goditi i coriandoli!" data-en="At least enjoy the confetti!">Almeno goditi i coriandoli!</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
