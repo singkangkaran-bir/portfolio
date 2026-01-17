@@ -1,3 +1,31 @@
+window.addEventListener("load", () => {
+    const loader = document.getElementById("loader");
+    const bar = document.querySelector(".loader-bar-fill");
+    const status = document.querySelector(".loader-status");
+    
+    // Simulazione di caricamento progressivo
+    let width = 0;
+    const interval = setInterval(() => {
+        if (width >= 100) {
+            clearInterval(interval);
+            
+            // Piccola pausa sul 100% per fluidità visiva
+            setTimeout(() => {
+                loader.classList.add("loader-hidden");
+            }, 500);
+        } else {
+            width += Math.random() * 15; // Incremento randomico per sembrare reale
+            if (width > 100) width = 100;
+            bar.style.width = width + "%";
+            
+            // Cambio testo opzionale durante il caricamento
+            if(width > 70) {
+                status.innerText = currentLang === "it" ? "Analisi dati completata..." : "Data analysis complete...";
+            }
+        }
+    }, 150);
+});
+
 /* --- CONFIGURAZIONE INIZIALE --- */
 let currentLang = "it";
 
