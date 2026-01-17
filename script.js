@@ -26,68 +26,51 @@ window.addEventListener("load", () => {
     }, 150);
 });
 
-// Inizializzazione 3D Semplificata
-const container = document.getElementById('avatar-container');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById('avatar-container');
+    if (!container) return;
 
-renderer.setSize(container.clientWidth, container.clientHeight);
-container.appendChild(renderer.domElement);
+    // SCENA
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
 
-// Creazione "Omino Stilizzato" (Robot di luce)
-const bodyGroup = new THREE.Group();
-const material = new THREE.MeshPhongMaterial({ color: 0x00f2ff, emissive: 0x00f2ff, emissiveIntensity: 0.5 });
+    // OMINO DI LUCE (Fatto di sfere neon)
+    const group = new THREE.Group();
+    const mat = new THREE.MeshPhongMaterial({ color: 0x00f2ff, emissive: 0x00f2ff });
 
-// Testa
-const head = new THREE.Mesh(new THREE.SphereGeometry(0.4, 32, 32), material);
-head.position.y = 1.6;
-bodyGroup.add(head);
-
-// Torso
-const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.2, 1, 32), material);
-torso.position.y = 0.8;
-bodyGroup.add(torso);
-
-scene.add(bodyGroup);
-camera.position.z = 5;
-
-// Luce
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-const pointLight = new THREE.PointLight(0x00f2ff, 1);
-pointLight.position.set(5, 5, 5);
-scene.add(pointLight);
-
-// Animazione e Eye-Tracking (il corpo segue il mouse)
-document.addEventListener('mousemove', (e) => {
-    const mouseX = (e.clientX / window.innerWidth) - 0.5;
-    const mouseY = (e.clientY / window.innerHeight) - 0.5;
-    gsap.to(bodyGroup.rotation, { y: mouseX * 0.5, x: mouseY * 0.2, duration: 0.5 });
-});
-
-// Animazione Scroll
-window.addEventListener('scroll', () => {
-    const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), mat);
+    head.position.y = 1.5;
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 1.5, 32), mat);
     
-    // L'omino scende e ruota mentre scendi
-    bodyGroup.position.y = -scrollPercent * 10;
-    bodyGroup.rotation.z = scrollPercent * 2;
-    
-    // Quando arrivi alla sezione About, mostriamo la foto
-    const aboutSection = document.querySelector('.about-section');
-    if (window.scrollY > aboutSection.offsetTop - 400) {
-        document.querySelector('.about-image-container').classList.add('show-photo');
+    group.add(head);
+    group.add(body);
+    scene.add(group);
+
+    // LUCI
+    const light = new THREE.PointLight(0xffffff, 1);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+    scene.add(new THREE.AmbientLight(0x404040));
+
+    camera.position.z = 5;
+
+    // ANIMAZIONE
+    function animate() {
+        requestAnimationFrame(animate);
+        group.rotation.y += 0.01; // L'omino gira su se stesso
+        renderer.render(scene, camera);
     }
-});
+    animate();
 
-function animate() {
-    requestAnimationFrame(animate);
-    // Movimento "respiro" automatico
-    bodyGroup.position.y += Math.sin(Date.now() * 0.002) * 0.001;
-    renderer.render(scene, camera);
-}
-animate();
+    // Reazione al mouse
+    window.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth) - 0.5;
+        group.position.x = x * 2;
+    });
+});
 
 /* --- CONFIGURAZIONE INIZIALE --- */
 let currentLang = "it";
