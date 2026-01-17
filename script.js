@@ -26,52 +26,6 @@ window.addEventListener("load", () => {
     }, 150);
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById('avatar-container');
-    if (!container) return;
-
-    // SCENA
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    container.appendChild(renderer.domElement);
-
-    // OMINO DI LUCE (Fatto di sfere neon)
-    const group = new THREE.Group();
-    const mat = new THREE.MeshPhongMaterial({ color: 0x00f2ff, emissive: 0x00f2ff });
-
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), mat);
-    head.position.y = 1.5;
-    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 1.5, 32), mat);
-    
-    group.add(head);
-    group.add(body);
-    scene.add(group);
-
-    // LUCI
-    const light = new THREE.PointLight(0xffffff, 1);
-    light.position.set(10, 10, 10);
-    scene.add(light);
-    scene.add(new THREE.AmbientLight(0x404040));
-
-    camera.position.z = 5;
-
-    // ANIMAZIONE
-    function animate() {
-        requestAnimationFrame(animate);
-        group.rotation.y += 0.01; // L'omino gira su se stesso
-        renderer.render(scene, camera);
-    }
-    animate();
-
-    // Reazione al mouse
-    window.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth) - 0.5;
-        group.position.x = x * 2;
-    });
-});
-
 /* --- CONFIGURAZIONE INIZIALE --- */
 let currentLang = "it";
 
